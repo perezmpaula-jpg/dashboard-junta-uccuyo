@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard Decano — Facultad de Filosofía UCCuyo</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#f2f4f8;font-family:'Montserrat',sans-serif;color:#1a1a2e;font-size:14px;}
+.header{background:#002856;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #C8A04A;position:sticky;top:0;z-index:100;}
+.logo-wrap{display:flex;align-items:center;gap:12px;}
+.logo{width:44px;height:44px;border-radius:50%;background:#C8A04A;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#002856;flex-shrink:0;text-align:center;line-height:1.1;}
+.h-titles .h1{color:#fff;font-size:14px;font-weight:700;}
+.h-titles .h2{color:#f0d898;font-size:10px;margin-top:2px;}
+.h-titles .h3{color:rgba(240,216,152,.7);font-size:9px;margin-top:1px;}
+.h-right{display:flex;align-items:center;gap:10px;}
+.upd-lbl{font-size:9px;color:#f0d898;text-align:right;line-height:1.5;}
+.rbtn{background:#C8A04A;border:none;color:#002856;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;padding:6px 13px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:4px;}
+.rbtn:hover{opacity:.85;}.rbtn:disabled{opacity:.6;cursor:not-allowed;}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px 32px;}
+.slbl{font-size:9px;font-weight:700;letter-spacing:.12em;color:#002856;text-transform:uppercase;padding:16px 0 7px;display:flex;align-items:center;gap:7px;}
+.slbl::after{content:'';flex:1;height:1px;background:rgba(0,40,86,.12);}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+@media(max-width:800px){.g3{grid-template-columns:repeat(2,minmax(0,1fr));}.g2{grid-template-columns:1fr;}}
+@media(max-width:500px){.g3{grid-template-columns:1fr;}}
+.qcard{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-radius:10px;padding:14px;border-top:3px solid #C8A04A;}
+.qcard.pg{border-top-color:#002856;}
+.qcard-ico{font-size:15px;color:#002856;margin-bottom:5px;}
+.qcard-tipo{font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:20px;display:inline-block;margin-bottom:5px;}
+.tipo-grado{background:#eef1f7;color:#002856;}.tipo-pos{background:#fff3e0;color:#854F0B;}.tipo-doc{background:#fdecea;color:#b92b27;}.tipo-esp{background:#e8f5ee;color:#1a7a4a;}
+.qcard-name{font-size:11px;font-weight:700;color:#002856;margin-bottom:6px;line-height:1.3;}
+.qcard-val{font-size:20px;font-weight:900;color:#002856;line-height:1;}
+.qcard-val span{font-size:11px;font-weight:400;color:#5a6070;}
+.qcard-ref{font-size:9px;color:#5a6070;margin-top:3px;line-height:1.4;}
+.qcard-src{font-size:8px;color:#C8A04A;font-weight:700;margin-top:5px;}
+.tag{display:inline-block;font-size:8px;font-weight:700;padding:2px 6px;border-radius:20px;margin-top:4px;}
+.tag-up{background:#e8f5ee;color:#1a7a4a;}.tag-down{background:#fdecea;color:#b92b27;}.tag-n{background:#eef1f7;color:#002856;}.tag-w{background:#fff3e0;color:#b87000;}
+.cc{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-radius:10px;padding:16px;border-top:3px solid #002856;}
+.cc.gold{border-top-color:#C8A04A;}
+.cc-ttl{font-size:10px;font-weight:700;color:#002856;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.cc-src{font-size:8px;color:#C8A04A;font-weight:700;margin-top:8px;}
+.chart-wrap{position:relative;width:100%;}
+.lgnd{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.lgnd-it{display:flex;align-items:center;gap:4px;font-size:9px;color:#5a6070;}
+.lgnd-sq{width:9px;height:9px;border-radius:2px;}
+.tcard{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-left:4px solid #002856;border-radius:10px;padding:13px;}
+.tcard.gold{border-left-color:#C8A04A;}
+.tcard-ttl{font-size:11px;font-weight:700;color:#002856;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+.tcard-body{font-size:10px;color:#5a6070;line-height:1.55;}
+.tcard-src{font-size:8px;color:#C8A04A;font-weight:700;margin-top:5px;}
+.ai-card{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-left:4px solid #C8A04A;border-radius:10px;padding:16px;}
+.ai-ttl{font-size:11px;font-weight:700;color:#002856;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ai-disc{font-size:8px;color:#888;border-top:1px solid rgba(0,40,86,.08);padding-top:7px;margin-top:10px;}
+.ldr{background:#fff;border:0.5px solid rgba(0,40,86,.1);border-radius:10px;padding:14px;font-size:11px;color:#5a6070;display:flex;align-items:center;gap:8px;}
+.sp{width:13px;height:13px;border:2px solid rgba(0,40,86,.1);border-top-color:#C8A04A;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.api-banner{background:#fff3e0;border:1px solid #C8A04A;border-radius:8px;padding:11px 14px;margin-bottom:14px;font-size:10px;color:#633806;display:flex;align-items:flex-start;gap:10px;}
+.api-banner input{font-family:'Montserrat',sans-serif;font-size:10px;padding:4px 9px;border:1px solid rgba(0,40,86,.2);border-radius:6px;min-width:190px;color:#1a1a2e;}
+.api-banner button{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;padding:4px 11px;border-radius:6px;background:#002856;color:#fff;border:none;cursor:pointer;}
+.alert-box{background:#fff3e0;border:1px solid #C8A04A;border-radius:8px;padding:10px 14px;font-size:10px;color:#633806;display:flex;gap:8px;align-items:flex-start;}
+.footer{padding:12px 0 0;font-size:8px;color:#5a6070;border-top:1px solid rgba(0,40,86,.1);margin-top:16px;line-height:1.7;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-wrap">
+    <div class="logo">FF<br>UCC</div>
+    <div class="h-titles">
+      <div class="h1">Dashboard — Decanato · Facultad de Filosofía</div>
+      <div class="h2">Universidad Católica de Cuyo · Sede San Juan</div>
+      <div class="h3">Indicadores académicos, aranceles y tendencias de demanda · 2026</div>
+    </div>
+  </div>
+  <div class="h-right">
+    <div class="upd-lbl" id="upd-lbl">—</div>
+    <button class="rbtn" id="rbtn" onclick="refreshAll()">
+      <i class="ti ti-refresh" style="font-size:11px"></i> Actualizar
+    </button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="api-banner" id="api-banner">
+    <i class="ti ti-key" style="font-size:17px;color:#C8A04A;flex-shrink:0;margin-top:1px"></i>
+    <div style="flex:1;">
+      <div style="font-weight:700;margin-bottom:3px;">Activar análisis ejecutivo de IA</div>
+      <div style="margin-bottom:7px;">Ingresá tu API key de Anthropic. Se guarda solo en este navegador.</div>
+      <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;">
+        <input type="password" id="api-key-input" placeholder="sk-ant-..."/>
+        <button onclick="saveKey()">Guardar y activar</button>
+        <a href="https://console.anthropic.com/settings/keys" target="_blank" style="font-size:9px;color:#854F0B;">Obtener API key ↗</a>
+      </div>
+    </div>
+    <button onclick="document.getElementById('api-banner').style.display='none'" style="background:none;border:none;cursor:pointer;color:#854F0B;font-size:17px;line-height:1;">✕</button>
+  </div>
+
+  <!-- ARANCELES GRADO -->
+  <div class="slbl"><i class="ti ti-cash" style="font-size:12px"></i> Aranceles mensuales — Carreras de grado (referencia mercado privado Argentina 2026)</div>
+  <div class="g3">
+    <div class="qcard">
+      <div class="qcard-ico"><i class="ti ti-brain"></i></div>
+      <span class="qcard-tipo tipo-grado">Grado · Presencial / Distancia</span>
+      <div class="qcard-name">Lic. en Psicología</div>
+      <div class="qcard-val">$480.000 <span>– $750.000</span></div>
+      <div class="qcard-ref">UB: $610k · USAL: $520k · UADE: $480k</div>
+      <span class="tag tag-up">Alta demanda nacional</span>
+      <div class="qcard-src">Chequeado · Cronista · UB 2026</div>
+    </div>
+    <div class="qcard">
+      <div class="qcard-ico"><i class="ti ti-users-group"></i></div>
+      <span class="qcard-tipo tipo-grado">Grado · Presencial / Distancia</span>
+      <div class="qcard-name">Lic. en Recursos Humanos</div>
+      <div class="qcard-val">$390.000 <span>– $620.000</span></div>
+      <div class="qcard-ref">UADE: $392k · UP: $450k · USAL: $520k</div>
+      <span class="tag tag-up">Crecimiento sostenido</span>
+      <div class="qcard-src">UADE · USAL · Chequeado 2026</div>
+    </div>
+    <div class="qcard">
+      <div class="qcard-ico"><i class="ti ti-book"></i></div>
+      <span class="qcard-tipo tipo-grado">Grado · Presencial</span>
+      <div class="qcard-name">Profesorado en Filosofía</div>
+      <div class="qcard-val">$280.000 <span>– $420.000</span></div>
+      <div class="qcard-ref">Rango promedio universidades privadas · perfil humanístico</div>
+      <span class="tag tag-n">Demanda estable</span>
+      <div class="qcard-src">SPU · Referencia UCA 2026</div>
+    </div>
+  </div>
+
+  <!-- ARANCELES POSGRADO -->
+  <div class="slbl"><i class="ti ti-award" style="font-size:12px"></i> Aranceles — Posgrados, Maestrías y Especializaciones (referencia mercado privado 2026)</div>
+  <div class="g3">
+    <div class="qcard pg">
+      <div class="qcard-ico"><i class="ti ti-device-desktop-analytics"></i></div>
+      <span class="qcard-tipo tipo-pos">Maestría</span>
+      <div class="qcard-name">Maestría en Gestión de Nuevas Tecnologías en Comunicación</div>
+      <div class="qcard-val">$180.000 <span>– $320.000 /mes</span></div>
+      <div class="qcard-ref">Total aprox. $3,5M – $6M · 2 años · A distancia</div>
+      <span class="tag tag-up">Alta demanda creciente</span>
+      <div class="qcard-src">FLACSO · UNQ · Chequeado 2025</div>
+    </div>
+    <div class="qcard pg">
+      <div class="qcard-ico"><i class="ti ti-cross"></i></div>
+      <span class="qcard-tipo tipo-doc">Doctorado</span>
+      <div class="qcard-name">Doctorado en Estudios Patrísticos</div>
+      <div class="qcard-val">$160.000 <span>– $280.000 /mes</span></div>
+      <div class="qcard-ref">Total aprox. $5,5M – $9M · Única oferta regional</div>
+      <span class="tag tag-n">Oferta diferenciada</span>
+      <div class="qcard-src">Referencia UCA · USAL 2025</div>
+    </div>
+    <div class="qcard pg">
+      <div class="qcard-ico"><i class="ti ti-brain"></i></div>
+      <span class="qcard-tipo tipo-pos">Maestría</span>
+      <div class="qcard-name">Maestría en Evaluación Psicológica (TCC)</div>
+      <div class="qcard-val">$200.000 <span>– $380.000 /mes</span></div>
+      <div class="qcard-ref">Total aprox. $4M – $7M · Alta demanda salud mental</div>
+      <span class="tag tag-up">Demanda en alza</span>
+      <div class="qcard-src">AIGLE · UdeSA · USAL 2025</div>
+    </div>
+    <div class="qcard pg">
+      <div class="qcard-ico"><i class="ti ti-building-community"></i></div>
+      <span class="qcard-tipo tipo-esp">Especialización</span>
+      <div class="qcard-name">Especialización en Alta Gerencia Pública</div>
+      <div class="qcard-val">$150.000 <span>– $260.000 /mes</span></div>
+      <div class="qcard-ref">Total aprox. $2,5M – $4M · Sector público</div>
+      <span class="tag tag-w">Demanda moderada</span>
+      <div class="qcard-src">INAP · UCA 2025</div>
+    </div>
+    <div class="qcard pg">
+      <div class="qcard-ico"><i class="ti ti-mood-happy"></i></div>
+      <span class="qcard-tipo tipo-esp">Especialización</span>
+      <div class="qcard-name">Especialización en Psicología de la Niñez y Adolescencia</div>
+      <div class="qcard-val">$170.000 <span>– $300.000 /mes</span></div>
+      <div class="qcard-ref">Total aprox. $3M – $5M · Alta demanda salud pública</div>
+      <span class="tag tag-up">Alta demanda</span>
+      <div class="qcard-src">UNSAM · FLACSO · UCA 2025</div>
+    </div>
+    <div class="alert-box">
+      <i class="ti ti-info-circle" style="font-size:18px;color:#C8A04A;flex-shrink:0;margin-top:1px"></i>
+      <div><div style="font-weight:700;margin-bottom:3px;">Nota metodológica</div>Valores de referencia del mercado privado argentino. UCCuyo define sus propios aranceles. Se recomienda revisar la competitividad semestralmente ajustando por IPC.</div>
+    </div>
+  </div>
+
+  <!-- GRAFICO ARANCELES -->
+  <div class="slbl"><i class="ti ti-chart-bar" style="font-size:12px"></i> Comparativo de aranceles por carrera — rango mínimo y máximo (mercado privado, $miles)</div>
+  <div class="cc gold">
+    <div class="cc-ttl"><i class="ti ti-coins" style="font-size:14px"></i> Aranceles mensuales · Carreras FFyL UCCuyo vs. mercado privado argentino 2026</div>
+    <div class="lgnd">
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#002856"></span>Rango mínimo ($miles)</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#C8A04A"></span>Rango máximo ($miles)</span>
+    </div>
+    <div class="chart-wrap" style="height:340px;">
+      <canvas id="arancelChart"></canvas>
+    </div>
+    <div class="cc-src"><i class="ti ti-external-link" style="font-size:8px"></i> Chequeado 2026 · El Cronista · iProfesional · UB · USAL · UADE · UCA · FLACSO · UdeSA</div>
+  </div>
+
+  <!-- GRAFICO DEMANDA ARGENTINA -->
+  <div class="slbl"><i class="ti ti-trending-up" style="font-size:12px"></i> Tendencia de demanda en Argentina — carreras de la Facultad (índice de inscriptos 2019=100)</div>
+  <div class="cc">
+    <div class="cc-ttl"><i class="ti ti-chart-line" style="font-size:14px"></i> Evolución relativa de la demanda 2019–2026 · Carreras seleccionadas (Argentina)</div>
+    <div class="lgnd">
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#002856"></span>Lic. Psicología</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#C8A04A"></span>Lic. RRHH</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#1a7a4a"></span>Prof. Filosofía</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#185FA5"></span>Posgrados Psicología</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#854F0B"></span>Posgrados RRHH/Gestión</span>
+      <span class="lgnd-it" style="color:#888;font-style:italic">*2025–2026 estimado SPU</span>
+    </div>
+    <div class="chart-wrap" style="height:300px;">
+      <canvas id="demandaArgChart"></canvas>
+    </div>
+    <div class="cc-src"><i class="ti ti-external-link" style="font-size:8px"></i> SPU · SIU Araucano · UBA CBC 2024 · Chequeado · CECE 2024 · *Estimaciones 2025–2026 basadas en tendencia histórica SPU</div>
+  </div>
+
+  <!-- TENDENCIAS MUNDIALES -->
+  <div class="slbl"><i class="ti ti-planet" style="font-size:12px"></i> Tendencias mundiales de demanda — áreas de conocimiento de la Facultad</div>
+  <div class="g2">
+    <div class="tcard">
+      <div class="tcard-ttl"><i class="ti ti-brain" style="font-size:13px;color:#002856"></i> Psicología clínica y salud mental</div>
+      <div class="tcard-body">La OMS estima un déficit de 1,18 millones de profesionales de salud mental para 2030. En Argentina, Psicología es la 2ª carrera más elegida en la UBA (5.943 inscriptos CBC 2024). La especialización en TCC tiene demanda creciente por su base de evidencia científica. La niñez y adolescencia es área prioritaria post-pandemia en todos los sistemas de salud.</div>
+      <span class="tag tag-up">Crecimiento global sostenido</span>
+      <div class="tcard-src"><i class="ti ti-external-link" style="font-size:8px"></i> OMS 2024 · WEF Future of Jobs 2025 · UBA CBC 2024</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-ttl"><i class="ti ti-users-group" style="font-size:13px;color:#002856"></i> Gestión de Recursos Humanos</div>
+      <div class="tcard-body">El WEF Future of Jobs 2025 posiciona "People Management" entre los 10 roles más demandados globalmente hasta 2030. La integración de IA en RRHH impulsa demanda de perfiles híbridos. LinkedIn reporta +22% en búsquedas de RRHH con competencias digitales en Latinoamérica. Las maestrías en RRHH top tienen lista de espera en Argentina.</div>
+      <span class="tag tag-up">Alta demanda · perfil estratégico</span>
+      <div class="tcard-src"><i class="ti ti-external-link" style="font-size:8px"></i> WEF Future of Jobs 2025 · LinkedIn Jobs 2025</div>
+    </div>
+    <div class="tcard gold">
+      <div class="tcard-ttl"><i class="ti ti-device-desktop-analytics" style="font-size:13px;color:#C8A04A"></i> Comunicación y tecnologías digitales</div>
+      <div class="tcard-body">QS Subject Rankings 2025 sitúa Communication & Media Studies entre los 15 campos con mayor crecimiento de matrícula mundial. La combinación comunicación + IA + datos es la más buscada por empleadores en medios, gobierno y organizaciones internacionales.</div>
+      <span class="tag tag-up">Área en fuerte expansión</span>
+      <div class="tcard-src"><i class="ti ti-external-link" style="font-size:8px"></i> QS Subject Rankings 2025 · UNESCO IESALC · WEF 2025</div>
+    </div>
+    <div class="tcard gold">
+      <div class="tcard-ttl"><i class="ti ti-book" style="font-size:13px;color:#C8A04A"></i> Filosofía y humanidades</div>
+      <div class="tcard-body">Las humanidades enfrentan presión global de matrícula decreciente (UNESCO 2024: -8% en 5 años). El Profesorado en Filosofía mantiene demanda estable por regulación del sistema educativo. El Doctorado en Estudios Patrísticos representa oferta única regional, con demanda desde instituciones eclesiásticas y centros de investigación (CONICET).</div>
+      <span class="tag tag-n">Estable por regulación educativa</span>
+      <div class="tcard-src"><i class="ti ti-external-link" style="font-size:8px"></i> UNESCO 2024 · SPU 2025 · QS Humanities Rankings</div>
+    </div>
+  </div>
+
+  <!-- GRAFICO BURBUJAS -->
+  <div class="slbl"><i class="ti ti-chart-bubble" style="font-size:12px"></i> Posicionamiento estratégico mundial — programas de la Facultad</div>
+  <div class="cc gold">
+    <div class="cc-ttl"><i class="ti ti-chart-bubble" style="font-size:14px"></i> Demanda global vs. crecimiento proyectado 2025–2030 · Programas de la Facultad de Filosofía</div>
+    <div class="lgnd">
+      <span class="lgnd-it"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#002856"></span>Grado</span>
+      <span class="lgnd-it"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#C8A04A"></span>Maestría / Especialización</span>
+      <span class="lgnd-it"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1a7a4a"></span>Doctorado</span>
+      <span class="lgnd-it" style="color:#888;font-style:italic">Tamaño = matrícula potencial estimada</span>
+    </div>
+    <div style="font-size:9px;color:#5a6070;margin-bottom:6px;">Eje X: índice de demanda global (base 100) · Eje Y: crecimiento proyectado 2025–2030 (%)</div>
+    <div class="chart-wrap" style="height:360px;">
+      <canvas id="bubbleChart"></canvas>
+    </div>
+    <div class="cc-src"><i class="ti ti-external-link" style="font-size:8px"></i> WEF Future of Jobs 2025 · QS Subject Rankings 2025 · OMS 2024 · UNESCO IESALC · LinkedIn Jobs 2025</div>
+  </div>
+
+  <!-- ANALISIS IA -->
+  <div class="slbl"><i class="ti ti-sparkles" style="font-size:12px"></i> Análisis ejecutivo para el Decano — Generado por IA</div>
+  <div id="ai-zone"><div class="ldr"><div class="sp"></div> Inicializando análisis ejecutivo...</div></div>
+
+  <div class="footer">
+    <strong>Fuentes:</strong> SPU / Ministerio de Educación · SIU Araucano · Chequeado · El Cronista · iProfesional · UBA CBC · OMS · WEF Future of Jobs 2025 · QS Subject Rankings 2025 · LinkedIn Jobs Report 2025 · UNESCO IESALC · CECE 2024<br>
+    Los aranceles son valores de referencia del mercado privado argentino y no corresponden a los aranceles propios de UCCuyo. Dashboard de uso interno — Decanato Facultad de Filosofía UCCuyo · Sede San Juan.
+  </div>
+</div>
+
+<!-- Chart.js primero, luego el script de la app -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* Espera a que el DOM y Chart.js estén listos */
+window.addEventListener('load', function() {
+
+  var FONT = {family:'Montserrat', size:10};
+  var GRID = {color:'rgba(0,40,86,.07)', lineWidth:0.5};
+
+  var ARANCEL_LABELS = ['Lic. Psicología','Lic. RRHH','Prof. Filosofía','Mgtr. Eval. Psi.','Mgtr. Tec. Com.','Esp. Niñez','Esp. Gerencia','Doctorado'];
+  var ARANCEL_MIN    = [480, 390, 280, 200, 180, 170, 150, 160];
+  var ARANCEL_MAX    = [750, 620, 420, 380, 320, 300, 260, 280];
+
+  var YEARS    = ['2019','2020','2021','2022','2023','2024','2025*','2026*'];
+  var D_PSICO  = [100, 95, 108, 112, 118, 122, 126, 130];
+  var D_RRHH   = [100, 88, 102, 110, 116, 121, 127, 133];
+  var D_FILO   = [100, 82,  88,  90,  91,  90,  89,  88];
+  var D_POS_PS = [100, 92, 110, 118, 125, 132, 140, 148];
+  var D_POS_RH = [100, 85, 105, 115, 122, 130, 138, 145];
+
+  var PROGRAMAS = [
+    {label:'Lic. en Psicología',         x:78, y:22, r:15, cat:'grado'},
+    {label:'Lic. en RRHH',               x:72, y:26, r:13, cat:'grado'},
+    {label:'Prof. en Filosofía',         x:42, y:4,  r:9,  cat:'grado'},
+    {label:'Mgtr. Eval. Psi. (TCC)',     x:70, y:30, r:12, cat:'pos'},
+    {label:'Mgtr. Tec. Comunicación',    x:68, y:35, r:10, cat:'pos'},
+    {label:'Esp. Niñez y Adolescencia',  x:65, y:28, r:10, cat:'pos'},
+    {label:'Esp. Alta Gerencia Pública', x:48, y:14, r:8,  cat:'pos'},
+    {label:'Doctorado Patrística',       x:22, y:8,  r:7,  cat:'doc'},
+  ];
+  var CAT_COLORS = {grado:'#002856', pos:'#C8A04A', doc:'#1a7a4a'};
+
+  /* ── GRÁFICO ARANCELES ── */
+  var ctx1 = document.getElementById('arancelChart');
+  if (ctx1) {
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ARANCEL_LABELS,
+        datasets: [
+          {label:'Mínimo ($miles)', data:ARANCEL_MIN, backgroundColor:'#002856', borderRadius:3, barPercentage:.7},
+          {label:'Máximo ($miles)', data:ARANCEL_MAX, backgroundColor:'#C8A04A', borderRadius:3, barPercentage:.7}
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {display:false},
+          tooltip: {
+            bodyFont: FONT,
+            titleFont: {family:'Montserrat', size:10, weight:'700'},
+            callbacks: {label: function(ctx){ return ' ' + ctx.dataset.label + ': $' + ctx.parsed.y + 'k'; }}
+          }
+        },
+        scales: {
+          x: {grid:{display:false}, ticks:{font:{family:'Montserrat',size:9}, color:'#5a6070', maxRotation:35}, border:{display:false}},
+          y: {grid:GRID, min:0, ticks:{font:{family:'Montserrat',size:9}, color:'#5a6070', callback:function(v){return '$'+v+'k';}}, border:{display:false},
+              title:{display:true, text:'Miles de pesos (mensual)', font:{family:'Montserrat',size:9}, color:'#5a6070'}}
+        }
+      }
+    });
+  }
+
+  /* ── GRÁFICO DEMANDA ARGENTINA ── */
+  var ctx2 = document.getElementById('demandaArgChart');
+  if (ctx2) {
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: YEARS,
+        datasets: [
+          {label:'Lic. Psicología',       data:D_PSICO,  borderColor:'#002856', backgroundColor:'transparent', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#002856', tension:.35},
+          {label:'Lic. RRHH',             data:D_RRHH,   borderColor:'#C8A04A', backgroundColor:'transparent', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#C8A04A', tension:.35},
+          {label:'Prof. Filosofía',       data:D_FILO,   borderColor:'#1a7a4a', backgroundColor:'transparent', borderWidth:2,   pointRadius:3, pointBackgroundColor:'#1a7a4a', tension:.35, borderDash:[4,3]},
+          {label:'Posgrados Psicología',  data:D_POS_PS, borderColor:'#185FA5', backgroundColor:'transparent', borderWidth:2,   pointRadius:3, pointBackgroundColor:'#185FA5', tension:.35},
+          {label:'Posgrados RRHH/Gestión',data:D_POS_RH, borderColor:'#854F0B', backgroundColor:'transparent', borderWidth:2,   pointRadius:3, pointBackgroundColor:'#854F0B', tension:.35, borderDash:[2,2]},
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {display:false},
+          tooltip: {
+            bodyFont: FONT,
+            titleFont: {family:'Montserrat', size:10, weight:'700'},
+            callbacks: {label: function(ctx){ return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + ' (índice)'; }}
+          }
+        },
+        scales: {
+          x: {grid:GRID, ticks:{font:{family:'Montserrat',size:10}, color:'#5a6070'}, border:{display:false}},
+          y: {grid:GRID, min:70, ticks:{font:{family:'Montserrat',size:9}, color:'#5a6070'}, border:{display:false},
+              title:{display:true, text:'Índice demanda (2019 = 100)', font:{family:'Montserrat',size:9}, color:'#5a6070'}}
+        }
+      }
+    });
+  }
+
+  /* ── GRÁFICO BURBUJAS ── */
+  var ctx3 = document.getElementById('bubbleChart');
+  if (ctx3) {
+    var bDatasets = Object.keys(CAT_COLORS).map(function(cat){
+      return {
+        label: cat,
+        data: PROGRAMAS.filter(function(p){ return p.cat===cat; }).map(function(p){ return {x:p.x, y:p.y, r:p.r, label:p.label}; }),
+        backgroundColor: CAT_COLORS[cat] + 'bb',
+        borderColor: CAT_COLORS[cat],
+        borderWidth: 1.5
+      };
+    });
+    new Chart(ctx3, {
+      type: 'bubble',
+      data: {datasets: bDatasets},
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {display:false},
+          tooltip: {
+            bodyFont: FONT,
+            titleFont: {family:'Montserrat', size:10, weight:'700'},
+            callbacks: {label: function(ctx){ return [' '+ctx.raw.label, ' Demanda: '+ctx.raw.x+'/100', ' Crecimiento: +'+ctx.raw.y+'%']; }}
+          }
+        },
+        scales: {
+          x: {min:0, max:100, grid:GRID, border:{display:false},
+              title:{display:true, text:'Índice de demanda global (base 100)', font:{family:'Montserrat',size:9,weight:'700'}, color:'#5a6070'},
+              ticks:{font:{family:'Montserrat',size:9}, color:'#5a6070'}},
+          y: {min:-2, max:44, grid:GRID, border:{display:false},
+              title:{display:true, text:'Crecimiento proyectado 2025–2030 (%)', font:{family:'Montserrat',size:9,weight:'700'}, color:'#5a6070'},
+              ticks:{font:{family:'Montserrat',size:9}, color:'#5a6070', callback:function(v){return '+'+v+'%';}}}
+        },
+        layout: {padding:{top:12, right:12}}
+      }
+    });
+  }
+
+}); /* fin window.load */
+
+/* ── API KEY ── */
+function saveKey(){
+  var k = document.getElementById('api-key-input').value.trim();
+  if(!k.startsWith('sk-ant-')){ alert('La API key debe comenzar con sk-ant-'); return; }
+  localStorage.setItem('ucc_key', k);
+  document.getElementById('api-banner').style.display = 'none';
+  fetchAI();
+}
+function getKey(){ return localStorage.getItem('ucc_key') || ''; }
+
+/* ── ANÁLISIS IA ── */
+async function fetchAI(){
+  var zone = document.getElementById('ai-zone');
+  var key  = getKey();
+  if(!key){
+    zone.innerHTML = '<div class="ldr" style="background:#fff3e0;border-color:#C8A04A;"><i class="ti ti-key" style="font-size:15px;color:#C8A04A;margin-right:6px"></i>Ingresá tu API key en el banner superior para activar el análisis de IA.</div>';
+    return;
+  }
+  zone.innerHTML = '<div class="ldr"><div class="sp"></div> Generando análisis ejecutivo para el Decano...</div>';
+  try {
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514', max_tokens: 1200,
+        messages: [{role:'user', content:`Sos el asesor académico del Decano de la Facultad de Filosofía de la Universidad Católica de Cuyo (UCCuyo), Sede San Juan. Con datos verificados de mayo 2026, redactá un análisis ejecutivo para el Decanato.
+
+CARRERAS: Lic. en Psicología (demanda alta, índice 122/100 vs 2019), Lic. en RRHH (creciendo, 121/100), Profesorado en Filosofía (estable-decreciente, 90/100), Maestría Evaluación Psicológica TCC (salud mental en auge), Maestría Gestión Tecnologías Comunicación (alta demanda digital), Doctorado Estudios Patrísticos (nicho único regional), Especialización Alta Gerencia Pública (moderada), Especialización Psicología Niñez y Adolescencia (alta).
+
+ARANCELES MERCADO 2026: Psicología $480k–$750k/mes · RRHH $390k–$620k/mes · Filosofía $280k–$420k/mes · Maestrías $180k–$380k/mes · Especializaciones $150k–$300k/mes · Doctorado $160k–$280k/mes.
+
+TENDENCIAS: Psicología y RRHH crecen sostenidamente. Humanidades: presión global -8% UNESCO 2024. Posgrados salud mental: crecimiento acelerado (déficit 1,18M OMS 2030). RRHH con IA: perfil más demandado WEF 2025. Comunicación digital: expansión global.
+
+Formato: 6 bullets ejecutivos. Señalá con ⚠ las 2 alertas y con ★ las 3 oportunidades estratégicas. Un bullet de contexto. Sin preámbulo. Máximo 220 palabras. Lenguaje directo para el Decano.`}]
+      })
+    });
+    var data = await res.json();
+    if(data.error) throw new Error(data.error.message);
+    var text = data.content ? data.content.map(function(b){ return b.text||''; }).join('') : '';
+    var html = text.split('\n').filter(function(l){ return l.trim(); }).map(function(l){
+      var t = l.trim();
+      if(/^#{1,3}\s/.test(t) || /^\*\*[^*]+\*\*$/.test(t))
+        return '<div style="font-size:11px;font-weight:700;color:#002856;margin:9px 0 3px;">'+t.replace(/^#+\s/,'').replace(/\*\*/g,'')+'</div>';
+      if(/^[-•*]\s/.test(t) || /^[0-9]+\.\s/.test(t)){
+        var body = t.replace(/^[-•*]\s/,'').replace(/^[0-9]+\.\s/,'').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+        var isAlert = body.indexOf('⚠') >= 0;
+        var isOpp   = body.indexOf('★') >= 0;
+        var col  = isAlert ? '#b92b27' : isOpp ? '#1a7a4a' : '#5a6070';
+        var mark = isAlert ? '⚠' : isOpp ? '★' : '▸';
+        var bg   = isAlert ? 'background:#fdecea;padding:5px 8px;border-radius:6px;' : isOpp ? 'background:#e8f5ee;padding:5px 8px;border-radius:6px;' : '';
+        return '<div style="display:flex;gap:7px;margin:5px 0;'+bg+'"><span style="color:'+col+';font-weight:700;flex-shrink:0;font-size:13px;">'+mark+'</span><span style="font-size:10px;line-height:1.55;">'+body+'</span></div>';
+      }
+      return '<div style="font-size:10px;margin:3px 0;line-height:1.5;">'+t.replace(/\*\*/g,'')+'</div>';
+    }).join('');
+    var now = new Date().toLocaleString('es-AR',{day:'2-digit',month:'long',year:'numeric'});
+    zone.innerHTML = '<div class="ai-card"><div class="ai-ttl"><i class="ti ti-sparkles" style="color:#C8A04A;font-size:14px"></i> Análisis ejecutivo — Decanato Filosofía · '+now+'</div><div>'+html+'</div><div class="ai-disc">Generado por IA con datos verificados · Contrastar con estadísticas propias UCCuyo antes de tomar decisiones · Dashboard Facultad de Filosofía v1.1</div></div>';
+  } catch(e) {
+    zone.innerHTML = '<div class="ai-card"><div style="color:#b92b27;font-size:11px;">Error: '+e.message+'. Verificá que la API key sea válida.</div></div>';
+  }
+}
+
+function updateTs(){
+  var n = new Date();
+  document.getElementById('upd-lbl').innerHTML = 'Última actualización<br>'+n.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+function setLoading(on){
+  var btn = document.getElementById('rbtn');
+  btn.disabled = on;
+  btn.innerHTML = on ? '<span style="display:inline-block;width:11px;height:11px;border:2px solid rgba(0,40,86,.2);border-top-color:#002856;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px;"></span> Actualizando...' : '<i class="ti ti-refresh" style="font-size:11px"></i> Actualizar';
+}
+async function refreshAll(){
+  setLoading(true);
+  updateTs();
+  await fetchAI();
+  setLoading(false);
+}
+
+if(getKey()) document.getElementById('api-banner').style.display = 'none';
+updateTs();
+fetchAI();
+setInterval(function(){ var n=new Date(); if(n.getHours()===8&&n.getMinutes()===0) refreshAll(); }, 60000);
+</script>
+</body>
+</html>
