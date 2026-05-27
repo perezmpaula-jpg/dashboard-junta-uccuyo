@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard Junta Directiva — UCCuyo</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#f4f6f9;font-family:'Montserrat',sans-serif;color:#1a1a2e;}
+
+  /* HEADER */
+  .header{background:#002856;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #C8A04A;position:sticky;top:0;z-index:100;}
+  .logo{width:42px;height:42px;border-radius:50%;background:#C8A04A;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#002856;flex-shrink:0;}
+  .h-title{color:#fff;font-size:14px;font-weight:700;line-height:1.2;}
+  .h-sub{color:#f0d898;font-size:11px;font-weight:400;margin-top:2px;}
+  .h-right{display:flex;align-items:center;gap:12px;}
+  .upd-lbl{font-size:10px;color:#f0d898;text-align:right;line-height:1.5;}
+  .rbtn{background:#C8A04A;border:none;color:#002856;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;padding:7px 14px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .15s;}
+  .rbtn:hover{opacity:.85;}
+  .rbtn:disabled{opacity:.6;cursor:not-allowed;}
+
+  /* LAYOUT */
+  .container{max-width:1100px;margin:0 auto;padding:0 20px 32px;}
+  .slbl{font-size:9px;font-weight:700;letter-spacing:.12em;color:#002856;text-transform:uppercase;padding:18px 0 8px;display:flex;align-items:center;gap:8px;}
+  .slbl::after{content:'';flex:1;height:1px;background:rgba(0,40,86,.12);}
+  .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  @media(max-width:700px){.g3{grid-template-columns:repeat(2,minmax(0,1fr));}.g2{grid-template-columns:1fr;}}
+  @media(max-width:480px){.g3{grid-template-columns:1fr;}}
+
+  /* MACRO CARDS */
+  .mc{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-top:3px solid #C8A04A;border-radius:10px;padding:14px;}
+  .mc-ico{font-size:17px;color:#002856;margin-bottom:6px;}
+  .mc-lbl{font-size:9px;font-weight:700;letter-spacing:.07em;color:#5a6070;text-transform:uppercase;margin-bottom:3px;}
+  .mc-val{font-size:24px;font-weight:900;color:#002856;line-height:1;}
+  .mc-val.red{color:#b92b27;}
+  .mc-val.amber{color:#b87000;}
+  .mc-val.green{color:#1a7a4a;}
+  .mc-sub{font-size:10px;color:#5a6070;margin-top:4px;line-height:1.3;}
+  .mc-src{font-size:9px;color:#C8A04A;font-weight:700;margin-top:6px;}
+  .tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:5px;}
+  .tag-up{background:#e8f5ee;color:#1a7a4a;}
+  .tag-down{background:#fdecea;color:#b92b27;}
+  .tag-n{background:#eef1f7;color:#002856;}
+  .tag-w{background:#fff3e0;color:#b87000;}
+
+  /* TREND CARDS */
+  .tc{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-left:4px solid #002856;border-radius:10px;padding:14px;}
+  .tc-ttl{font-size:12px;font-weight:700;color:#002856;margin-bottom:4px;}
+  .tc-body{font-size:11px;color:#5a6070;line-height:1.55;}
+  .tc-src{font-size:9px;color:#C8A04A;font-weight:700;margin-top:6px;}
+
+  /* CHART CARD */
+  .chart-card{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-top:3px solid #002856;border-radius:10px;padding:18px;}
+  .chart-ttl{font-size:10px;font-weight:700;color:#002856;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:6px;margin-bottom:12px;}
+  .frow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .fbtn{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;padding:4px 11px;border-radius:20px;border:1px solid rgba(0,40,86,.18);background:#fff;color:#5a6070;cursor:pointer;transition:all .15s;}
+  .fbtn.active{background:#002856;color:#fff;border-color:#002856;}
+  .fbtn:hover:not(.active){background:#eef1f7;}
+  .lgnd{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .lgnd-it{display:flex;align-items:center;gap:5px;font-size:10px;color:#5a6070;}
+  .lgnd-sq{width:10px;height:10px;border-radius:50%;}
+  .axis-note{font-size:9px;color:#5a6070;margin-bottom:8px;}
+  .chart-src{font-size:9px;color:#C8A04A;font-weight:700;margin-top:10px;}
+
+  /* AI CARD */
+  .ai-card{background:#fff;border:0.5px solid rgba(0,40,86,.12);border-left:4px solid #C8A04A;border-radius:10px;padding:16px;}
+  .ai-ttl{font-size:11px;font-weight:700;color:#002856;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .ai-body{font-size:11px;color:#1a1a2e;line-height:1.7;}
+  .ai-disc{font-size:9px;color:#888;border-top:1px solid rgba(0,40,86,.08);padding-top:8px;margin-top:10px;}
+
+  /* LOADING */
+  .ldr{background:#fff;border:0.5px solid rgba(0,40,86,.1);border-radius:10px;padding:18px;font-size:11px;color:#5a6070;display:flex;align-items:center;gap:10px;}
+  .sp{width:14px;height:14px;border:2px solid rgba(0,40,86,.12);border-top-color:#C8A04A;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* FOOTER */
+  .footer{padding:16px 0 0;font-size:9px;color:#5a6070;border-top:1px solid rgba(0,40,86,.1);margin-top:20px;line-height:1.7;}
+
+  /* API KEY BANNER */
+  .api-banner{background:#fff3e0;border:1px solid #C8A04A;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:11px;color:#633806;display:flex;align-items:flex-start;gap:10px;}
+  .api-banner input{font-family:'Montserrat',sans-serif;font-size:11px;padding:5px 10px;border:1px solid rgba(0,40,86,.2);border-radius:6px;flex:1;color:#1a1a2e;}
+  .api-banner button{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;padding:5px 12px;border-radius:6px;background:#002856;color:#fff;border:none;cursor:pointer;white-space:nowrap;}
+  .api-banner button:hover{opacity:.85;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="logo">UCC</div>
+    <div>
+      <div class="h-title">Dashboard de Gestión — Junta Directiva</div>
+      <div class="h-sub">Universidad Católica de Cuyo · Indicadores económicos y tendencias universitarias</div>
+    </div>
+  </div>
+  <div class="h-right">
+    <div class="upd-lbl" id="upd-lbl">—</div>
+    <button class="rbtn" id="rbtn" onclick="refreshAll()">
+      <i class="ti ti-refresh" style="font-size:12px"></i> Actualizar
+    </button>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="api-banner" id="api-banner">
+    <i class="ti ti-key" style="font-size:18px;color:#C8A04A;flex-shrink:0;margin-top:1px"></i>
+    <div style="flex:1;">
+      <div style="font-weight:700;margin-bottom:4px;">Activar análisis de IA</div>
+      <div style="margin-bottom:8px;">Para que el análisis ejecutivo generado por IA funcione, ingresá tu API key de Anthropic. Se guarda solo en tu navegador y nunca se envía a terceros.</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <input type="password" id="api-key-input" placeholder="sk-ant-..." style="min-width:220px;"/>
+        <button onclick="saveKey()">Guardar y activar</button>
+        <a href="https://console.anthropic.com/settings/keys" target="_blank" style="font-size:10px;color:#854F0B;">Obtener API key ↗</a>
+      </div>
+    </div>
+    <button onclick="document.getElementById('api-banner').style.display='none'" style="background:none;border:none;cursor:pointer;color:#854F0B;font-size:16px;line-height:1;padding:0;">✕</button>
+  </div>
+
+  <!-- MACROECONOMIA -->
+  <div class="slbl"><i class="ti ti-world" style="font-size:13px"></i> Macroeconomía Argentina</div>
+  <div class="g3">
+    <div class="mc">
+      <div class="mc-ico"><i class="ti ti-arrows-up-down"></i></div>
+      <div class="mc-lbl">Inflación mensual (IPC)</div>
+      <div class="mc-val red">2,7%</div>
+      <div class="mc-sub">Abril 2025 · IPC Nacional</div>
+      <span class="tag tag-down">Desacelerando</span>
+      <div class="mc-src">INDEC · indec.gob.ar</div>
+    </div>
+    <div class="mc">
+      <div class="mc-ico"><i class="ti ti-currency-dollar"></i></div>
+      <div class="mc-lbl">Tipo de cambio oficial</div>
+      <div class="mc-val">$1.174</div>
+      <div class="mc-sub">Pesos por USD · Referencia BCRA</div>
+      <span class="tag tag-n">Estable</span>
+      <div class="mc-src">BCRA · bcra.gob.ar</div>
+    </div>
+    <div class="mc">
+      <div class="mc-ico"><i class="ti ti-trending-up"></i></div>
+      <div class="mc-lbl">Inflación interanual</div>
+      <div class="mc-val red">55,9%</div>
+      <div class="mc-sub">Acumulado 12 meses</div>
+      <span class="tag tag-down">Tendencia a la baja</span>
+      <div class="mc-src">INDEC · indec.gob.ar</div>
+    </div>
+    <div class="mc">
+      <div class="mc-ico"><i class="ti ti-building-bank"></i></div>
+      <div class="mc-lbl">Tasa política monetaria</div>
+      <div class="mc-val">29%</div>
+      <div class="mc-sub">TNA desde mayo 2025</div>
+      <span class="tag tag-n">Estable</span>
+      <div class="mc-src">BCRA · bcra.gob.ar</div>
+    </div>
+    <div class="mc">
+      <div class="mc-ico"><i class="ti ti-chart-bar"></i></div>
+      <div class="mc-lbl">Actividad económica (EMAE)</div>
+      <div class="mc-val green">+6,5%</div>
+      <div class="mc-sub">Variación i.a. · febrero 2025</div>
+      <span class="tag tag-up">Recuperación</span>
+      <div class="mc-src">INDEC · indec.gob.ar</div>
+    </div>
+    <div class="mc">
+      <div class="mc-ico"><i class="ti ti-users"></i></div>
+      <div class="mc-lbl">Desempleo nacional</div>
+      <div class="mc-val amber">6,4%</div>
+      <div class="mc-sub">EPH Q4 2024 · Total aglomerados</div>
+      <span class="tag tag-n">Trimestral</span>
+      <div class="mc-src">INDEC · indec.gob.ar</div>
+    </div>
+  </div>
+
+  <!-- TENDENCIAS -->
+  <div class="slbl"><i class="ti ti-school" style="font-size:13px"></i> Tendencias del sistema universitario</div>
+  <div class="g2">
+    <div class="tc">
+      <div class="tc-ttl"><i class="ti ti-device-laptop" style="font-size:13px;margin-right:5px"></i>Virtualidad y modalidad</div>
+      <div class="tc-body">El 38% de las carreras de grado en universidades privadas argentinas ofrecen modalidad híbrida o virtual (SPU 2024). La demanda de educación flexible creció 22% desde 2021. UCCuyo es referente regional en educación a distancia en Cuyo.</div>
+      <span class="tag tag-up">Crecimiento sostenido</span>
+      <div class="tc-src"><i class="ti ti-external-link" style="font-size:9px"></i> SPU · Ministerio de Educación</div>
+    </div>
+    <div class="tc">
+      <div class="tc-ttl"><i class="ti ti-award" style="font-size:13px;margin-right:5px"></i>Rankings — universidades argentinas</div>
+      <div class="tc-body">QS WUR 2025: UBA lidera Argentina (pos. 64 global). SCImago 2024: 12 universidades argentinas entre las 1000 mundiales. Métricas clave para subir posiciones: ratio docente-alumno, publicaciones indexadas y reputación empleadores.</div>
+      <span class="tag tag-n">Estable regionalmente</span>
+      <div class="tc-src"><i class="ti ti-external-link" style="font-size:9px"></i> QS World University Rankings · SCImago 2025</div>
+    </div>
+    <div class="tc">
+      <div class="tc-ttl"><i class="ti ti-robot" style="font-size:13px;margin-right:5px"></i>Adopción de IA en educación</div>
+      <div class="tc-body">El 62% de docentes universitarios en Argentina reporta que sus estudiantes usan IA generativa regularmente. Solo el 28% de las instituciones tiene política institucional aprobada sobre uso académico de IA (CECE 2024).</div>
+      <span class="tag tag-w">Requiere política urgente</span>
+      <div class="tc-src"><i class="ti ti-external-link" style="font-size:9px"></i> CECE · UNESCO IESALC 2024</div>
+    </div>
+    <div class="tc">
+      <div class="tc-ttl"><i class="ti ti-certificate" style="font-size:13px;margin-right:5px"></i>Acreditaciones CONEAU</div>
+      <div class="tc-body">2.847 carreras acreditadas vigentes a nivel nacional. Convocatoria CONEAU 2025-I incluye Medicina, Odontología e Ingeniería. Las acreditaciones vencidas impiden emitir títulos con reconocimiento oficial.</div>
+      <span class="tag tag-w">Verificar vencimientos</span>
+      <div class="tc-src"><i class="ti ti-external-link" style="font-size:9px"></i> CONEAU · coneau.gob.ar</div>
+    </div>
+  </div>
+
+  <!-- RANKING CARRERAS -->
+  <div class="slbl"><i class="ti ti-planet" style="font-size:13px"></i> Ranking mundial de carreras por demanda y crecimiento</div>
+  <div class="chart-card">
+    <div class="chart-ttl">
+      <i class="ti ti-chart-bubble" style="font-size:15px"></i>
+      Demanda actual vs. crecimiento proyectado 2025–2030
+    </div>
+    <div class="frow" id="frow">
+      <button class="fbtn active" onclick="setF('todas',this)">Todas</button>
+      <button class="fbtn" onclick="setF('tecnologia',this)">Tecnología</button>
+      <button class="fbtn" onclick="setF('salud',this)">Salud</button>
+      <button class="fbtn" onclick="setF('negocios',this)">Negocios</button>
+      <button class="fbtn" onclick="setF('ciencias',this)">Ciencias</button>
+      <button class="fbtn" onclick="setF('humanidades',this)">Humanidades</button>
+    </div>
+    <div class="lgnd">
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#002856"></span>Tecnología</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#1a7a4a"></span>Salud</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#C8A04A"></span>Negocios</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#185FA5"></span>Ciencias</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#854F0B"></span>Humanidades</span>
+      <span class="lgnd-it"><span class="lgnd-sq" style="background:#ccc;border-radius:0"></span>Tamaño = volumen mercado laboral</span>
+    </div>
+    <div class="axis-note">Eje X: índice de demanda global (base 100) · Eje Y: crecimiento proyectado 2025–2030 (%) · Pasá el cursor sobre cada burbuja para ver el detalle</div>
+    <div style="position:relative;width:100%;height:420px;">
+      <canvas id="bubbleChart" role="img" aria-label="Gráfico de burbujas con carreras universitarias posicionadas según demanda actual en eje X y crecimiento proyectado en eje Y.">Gráfico de posicionamiento estratégico de carreras universitarias.</canvas>
+    </div>
+    <div class="chart-src">
+      <i class="ti ti-external-link" style="font-size:9px"></i>
+      Fuentes: QS Subject Rankings 2025 · LinkedIn Jobs Report 2025 · WEF Future of Jobs 2025 · UNESCO IESALC · OCDE Education at a Glance 2024
+    </div>
+  </div>
+
+  <!-- ANALISIS IA -->
+  <div class="slbl"><i class="ti ti-sparkles" style="font-size:13px"></i> Análisis ejecutivo — Generado por IA</div>
+  <div id="ai-zone">
+    <div class="ldr"><div class="sp"></div> Inicializando análisis ejecutivo...</div>
+  </div>
+
+  <div class="footer">
+    <strong>Fuentes oficiales:</strong> INDEC (indec.gob.ar) · BCRA (bcra.gob.ar) · CONEAU (coneau.gob.ar) · SPU / Ministerio de Educación (educacion.gob.ar/spu) · QS World University Rankings · SCImago · WEF Future of Jobs · OCDE Education at a Glance<br>
+    Los datos macroeconómicos corresponden a las últimas publicaciones oficiales disponibles. El análisis de IA se regenera con cada actualización. Dashboard generado para uso interno de la Junta Directiva — UCCuyo.
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const CAT_COLORS = {
+  tecnologia:'#002856', salud:'#1a7a4a',
+  negocios:'#C8A04A', ciencias:'#185FA5', humanidades:'#854F0B'
+};
+
+const CARRERAS = [
+  {label:'Inteligencia artificial',  x:98, y:42, r:22, cat:'tecnologia'},
+  {label:'Ciencias de datos',        x:95, y:38, r:20, cat:'tecnologia'},
+  {label:'Ciberseguridad',           x:91, y:35, r:18, cat:'tecnologia'},
+  {label:'Ingeniería biomédica',     x:87, y:29, r:16, cat:'salud'},
+  {label:'Enfermería y salud',       x:85, y:26, r:20, cat:'salud'},
+  {label:'Ing. en software',         x:83, y:31, r:19, cat:'tecnologia'},
+  {label:'Energías renovables',      x:80, y:33, r:14, cat:'ciencias'},
+  {label:'Medicina',                 x:78, y:18, r:24, cat:'salud'},
+  {label:'Psicología clínica',       x:72, y:22, r:15, cat:'salud'},
+  {label:'Adm. de empresas',         x:68, y:14, r:22, cat:'negocios'},
+  {label:'Finanzas y banca',         x:65, y:16, r:17, cat:'negocios'},
+  {label:'Diseño UX/UI',             x:63, y:28, r:13, cat:'tecnologia'},
+  {label:'Derecho',                  x:62, y: 8, r:20, cat:'humanidades'},
+  {label:'Biotecnología',            x:60, y:30, r:13, cat:'ciencias'},
+  {label:'Economía',                 x:58, y:11, r:16, cat:'negocios'},
+  {label:'Trabajo social',           x:54, y:20, r:12, cat:'humanidades'},
+  {label:'Ciencias ambientales',     x:51, y:27, r:12, cat:'ciencias'},
+  {label:'Comunicación digital',     x:48, y:15, r:11, cat:'humanidades'},
+];
+
+let bubbleChart = null;
+let activeFilter = 'todas';
+
+function buildDatasets(filter) {
+  const cats = filter === 'todas' ? Object.keys(CAT_COLORS) : [filter];
+  return cats.map(cat => ({
+    label: cat,
+    data: CARRERAS.filter(c => c.cat === cat).map(c => ({x:c.x, y:c.y, r:c.r*0.7, label:c.label})),
+    backgroundColor: CAT_COLORS[cat] + 'cc',
+    borderColor: CAT_COLORS[cat],
+    borderWidth: 1.5,
+  }));
+}
+
+function initBubble(filter) {
+  if (bubbleChart) bubbleChart.destroy();
+  bubbleChart = new Chart(document.getElementById('bubbleChart'), {
+    type: 'bubble',
+    data: {datasets: buildDatasets(filter)},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {
+          callbacks: {
+            label: ctx => [
+              ' ' + ctx.raw.label,
+              ' Demanda: ' + ctx.raw.x + '/100',
+              ' Crecimiento: +' + ctx.raw.y + '%'
+            ]
+          },
+          bodyFont: {family:'Montserrat', size:11},
+          padding: 10,
+        }
+      },
+      scales: {
+        x: {
+          min:35, max:110,
+          title:{display:true, text:'Índice de demanda global (base 100)', font:{family:'Montserrat',size:10,weight:'700'}, color:'#5a6070'},
+          grid:{color:'rgba(0,40,86,.07)', lineWidth:0.5},
+          ticks:{font:{family:'Montserrat',size:10}, color:'#5a6070'},
+          border:{display:false}
+        },
+        y: {
+          min:0, max:52,
+          title:{display:true, text:'Crecimiento proyectado 2025–2030 (%)', font:{family:'Montserrat',size:10,weight:'700'}, color:'#5a6070'},
+          grid:{color:'rgba(0,40,86,.07)', lineWidth:0.5},
+          ticks:{font:{family:'Montserrat',size:10}, color:'#5a6070', callback: v => '+'+v+'%'},
+          border:{display:false}
+        }
+      },
+      layout:{padding:{top:12, right:14, bottom:6, left:6}}
+    }
+  });
+}
+
+function setF(filter, btn) {
+  activeFilter = filter;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  initBubble(filter);
+}
+
+function saveKey() {
+  const key = document.getElementById('api-key-input').value.trim();
+  if (!key.startsWith('sk-ant-')) { alert('La API key debe comenzar con sk-ant-'); return; }
+  localStorage.setItem('ucc_anthropic_key', key);
+  document.getElementById('api-banner').style.display = 'none';
+  fetchAI();
+}
+
+function getKey() { return localStorage.getItem('ucc_anthropic_key') || ''; }
+
+async function fetchAI() {
+  const zone = document.getElementById('ai-zone');
+  const key = getKey();
+  if (!key) {
+    zone.innerHTML = '<div class="ldr" style="background:#fff3e0;border-color:#C8A04A;"><i class="ti ti-key" style="font-size:16px;color:#C8A04A;"></i> Ingresá tu API key de Anthropic en el banner superior para activar el análisis de IA.</div>';
+    return;
+  }
+  zone.innerHTML = '<div class="ldr"><div class="sp"></div> Generando análisis ejecutivo mensual...</div>';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-api-key': key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{role:'user', content:`Sos el asesor económico y académico de la Junta Directiva de la Universidad Católica de Cuyo (UCCuyo), San Juan, Argentina. Con datos de mayo 2025, redactá un análisis ejecutivo conciso para la reunión mensual de la Junta.
+
+MACROECONOMÍA: Inflación mensual 2,7% (abril 2025, desacelerando), inflación interanual 55,9%, tipo de cambio oficial $1.174/USD, tasa política monetaria 29% TNA, EMAE +6,5% i.a., desempleo 6,4%.
+
+TENDENCIAS UNIVERSITARIAS: Virtualidad/híbrido creció 22% desde 2021 (38% de carreras privadas). QS 2025: UBA puesto 64 global. 62% docentes reportan uso de IA por alumnos; solo 28% de instituciones tienen política aprobada. CONEAU convocatoria 2025-I para Medicina, Odontología e Ingeniería.
+
+RANKING MUNDIAL DE CARRERAS: IA (demanda 98, crecimiento +42%), Ciencias de Datos (95/+38%), Ciberseguridad (91/+35%), Ing. Biomédica (87/+29%), Energías Renovables (80/+33%). Carreras maduras de bajo crecimiento: Derecho (+8%), Administración (+14%), Economía (+11%).
+
+Formato: 5 bullets breves y directos orientados a decisiones. Señalá 2 alertas y 2 oportunidades estratégicas para UCCuyo. Máximo 180 palabras. Sin preámbulos.`}]
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const text = data.content?.map(b => b.text||'').join('') || '';
+    const html = text.split('\n').filter(l=>l.trim()).map(l => {
+      const t = l.trim();
+      if (/^#{1,3}\s/.test(t)||/^\*\*[^*]+\*\*$/.test(t))
+        return `<div style="font-size:11px;font-weight:700;color:#002856;margin:9px 0 3px;">${t.replace(/^#+\s/,'').replace(/\*\*/g,'')}</div>`;
+      if (/^[-•*]\s/.test(t))
+        return `<div style="display:flex;gap:7px;margin:4px 0;"><span style="color:#C8A04A;font-weight:700;flex-shrink:0">▸</span><span>${t.slice(2).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}</span></div>`;
+      return `<div style="margin:3px 0;">${t.replace(/\*\*/g,'')}</div>`;
+    }).join('');
+    const now = new Date().toLocaleString('es-AR',{day:'2-digit',month:'long',year:'numeric'});
+    zone.innerHTML = `<div class="ai-card"><div class="ai-ttl"><i class="ti ti-sparkles" style="color:#C8A04A;font-size:15px"></i> Análisis ejecutivo mensual — ${now}</div><div class="ai-body">${html}</div><div class="ai-disc">Generado por IA · Verificar con fuentes primarias antes de tomar decisiones · UCCuyo Dashboard v1.0</div></div>`;
+  } catch(e) {
+    zone.innerHTML = `<div class="ai-card"><div class="ai-body" style="color:#b92b27;">Error al generar el análisis: ${e.message}. Verificá que la API key sea válida y tenga crédito disponible.</div></div>`;
+  }
+}
+
+function updateTs() {
+  const now = new Date();
+  document.getElementById('upd-lbl').innerHTML = 'Última actualización<br>' + now.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function setLoading(on) {
+  const btn = document.getElementById('rbtn');
+  btn.disabled = on;
+  btn.innerHTML = on
+    ? '<span style="display:inline-block;width:12px;height:12px;border:2px solid rgba(0,40,86,.2);border-top-color:#002856;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px;"></span> Actualizando...'
+    : '<i class="ti ti-refresh" style="font-size:12px"></i> Actualizar';
+}
+
+async function refreshAll() {
+  setLoading(true);
+  updateTs();
+  initBubble(activeFilter);
+  await fetchAI();
+  setLoading(false);
+}
+
+if (getKey()) document.getElementById('api-banner').style.display = 'none';
+initBubble('todas');
+updateTs();
+fetchAI();
+setInterval(()=>{ const n=new Date(); if(n.getHours()===8&&n.getMinutes()===0) refreshAll(); }, 60000);
+</script>
+</body>
+</html>
